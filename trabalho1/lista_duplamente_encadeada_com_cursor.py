@@ -151,20 +151,20 @@ class ListaDuplamenteEncadeadaComCursor:
         """
         Remove o primeiro elemento da lista.
         """
-        if self.__qt_elementos_na_lista and self.__posicao_cursor == self.__primeiro_elemento:
+        if self.__qt_elementos_na_lista:
+            self.__posicao_cursor = self.__primeiro_elemento.proximo_elemento if self.__posicao_cursor == self.__primeiro_elemento else self.__posicao_cursor
             self.__primeiro_elemento = self.__primeiro_elemento.proximo_elemento
             self.__primeiro_elemento.elemento_anterior = None
-            self.__posicao_cursor.proximo_elemento = None
             self.__qt_elementos_na_lista -= 1
 
     def excluir_ultimo_elemento(self) -> None:
         """
         Remove o último elemento da lista.
         """
-        if self.__qt_elementos_na_lista and self.__posicao_cursor == self.__ultimo_elemento:
+        if self.__qt_elementos_na_lista:
+            self.__posicao_cursor = self.__ultimo_elemento.elemento_anterior if self.__posicao_cursor == self.__ultimo_elemento else self.__posicao_cursor
             self.__ultimo_elemento = self.__ultimo_elemento.elemento_anterior
             self.__ultimo_elemento.proximo_elemento = None
-            self.__posicao_cursor.elemento_anterior = None
             self.__qt_elementos_na_lista -= 1
 
     def excluir_atual(self) -> None:
@@ -174,18 +174,20 @@ class ListaDuplamenteEncadeadaComCursor:
         if self.__qt_elementos_na_lista:
             if self.__qt_elementos_na_lista == 1:
                 self.excluir_unico_elemento()
-            elif self.__posicao_cursor == self.__primeiro_elemento:
+                return
+            if self.__posicao_cursor == self.__primeiro_elemento:
                 self.excluir_primeiro_elemento()
                 self.__posicao_cursor = self.__primeiro_elemento
-            elif self.__posicao_cursor == self.__ultimo_elemento:
+                return
+            if self.__posicao_cursor == self.__ultimo_elemento:
                 self.excluir_ultimo_elemento()
                 self.__posicao_cursor = self.__ultimo_elemento
-            else:
-                self.__posicao_cursor.proximo_elemento.elemento_anterior = \
-                self.__posicao_cursor.elemento_anterior
-                self.__posicao_cursor = self.__posicao_cursor.elemento_anterior
-                self.__posicao_cursor.proximo_elemento = \
-                self.__posicao_cursor.proximo_elemento.proximo_elemento
+                return
+            self.__posicao_cursor.proximo_elemento.elemento_anterior = \
+            self.__posicao_cursor.elemento_anterior
+            self.__posicao_cursor = self.__posicao_cursor.elemento_anterior
+            self.__posicao_cursor.proximo_elemento = \
+            self.__posicao_cursor.proximo_elemento.proximo_elemento
             self.__qt_elementos_na_lista -= 1
 
     def excluir_da_posicao(self, posicao: int) -> None:
@@ -309,9 +311,14 @@ class ListaDuplamenteEncadeadaComCursor:
             for posicao in range(self.__qt_elementos_na_lista):
                 if self.__posicao_cursor.valor == valor_elemento:
                     return posicao + 1
-                if self.__posicao_cursor == self.__ultimo_elemento:
-                    return None
                 self.__posicao_cursor = self.__posicao_cursor.proximo_elemento
+            return None
 
 if __name__ == "__main__":
     a = ListaDuplamenteEncadeadaComCursor(5)
+    a.inserir_como_primeiro(1)
+    a.inserir_como_primeiro(2)
+    a.inserir_como_primeiro(3)
+    a.inserir_como_primeiro(4)
+    a.inserir_como_ultimo(5)
+    a.pega_posicao_elemento(5)
