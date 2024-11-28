@@ -1,4 +1,4 @@
-from elemento import Elemento
+from model.elemento import Elemento
 
 
 class DiretorioSalario:

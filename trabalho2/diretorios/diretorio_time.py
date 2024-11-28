@@ -1,24 +1,24 @@
-from elemento import Elemento
+from model.elemento import Elemento
 
 
-class DiretorioSalario:
+class DiretorioTime:
     def __init__(self):
         self.__diretorio = {}
 
-    def adiciona_dado(self, cidade: str, id_pessoa: int):
-        cidade = cidade.upper()
+    def adiciona_dado(self, time: str, id_pessoa: int):
+        time = time.upper()
         try:
             elemento = Elemento(int(id_pessoa))
         except ValueError:
             return None
         if elemento in self.__diretorio:
-            elemento.proximo_elemento = self.__diretorio[cidade]
-        self.__diretorio[cidade] = elemento
+            elemento.proximo_elemento = self.__diretorio[time]
+        self.__diretorio[time] = elemento
 
-    def busca(self, cidade: str):
-        cidade = cidade.upper()
-        if self.__diretorio[cidade]:
-            elemento = self.__diretorio[cidade]
+    def busca(self, time: str):
+        time = time.upper()
+        if self.__diretorio[time]:
+            elemento = self.__diretorio[time]
             ids = []
             while elemento is not None:
                 ids.append(elemento.id_pessoa)
@@ -26,22 +26,22 @@ class DiretorioSalario:
             return ids
         return None
 
-    def busca_por_id(self, cidade: str, id_pessoa: int):
-        cidade = cidade.upper()
-        if self.__diretorio[cidade]:
-            elemento = self.__diretorio[cidade]
+    def busca_por_id(self, time: str, id_pessoa: int):
+        time = time.upper()
+        if self.__diretorio[time]:
+            elemento = self.__diretorio[time]
             while elemento is not None:
                 if elemento.id_pessoa == id_pessoa:
                     return elemento
                 elemento = elemento.proximo_elemento
         return False
 
-    def remove(self, cidade: str, id_pessoa: int):
-        cidade = cidade.upper()
-        if self.__diretorio[cidade]:
-            elemento = self.__diretorio[cidade]
+    def remove(self, time: str, id_pessoa: int):
+        time = time.upper()
+        if self.__diretorio[time]:
+            elemento = self.__diretorio[time]
             if elemento.id_pessoa == id_pessoa:
-                self.__diretorio[cidade] = elemento.proximo_elemento
+                self.__diretorio[time] = elemento.proximo_elemento
                 return True
             while elemento is not None:
                 if elemento.proximo_elemento.id_pessoa == id_pessoa:

@@ -1,0 +1,3 @@
+from diretorios.diretorio_cidade import DiretorioCidade
+from diretorios.diretorio_salario import DiretorioSalario
+from diretorios.diretorio_time import DiretorioTime
