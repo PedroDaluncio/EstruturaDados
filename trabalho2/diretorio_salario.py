@@ -1,5 +1,6 @@
 from elemento import Elemento
 
+
 class DiretorioSalario:
     def __init__(self):
         self.__diretorio = {(0, 1000): None,
@@ -21,12 +22,14 @@ class DiretorioSalario:
                             (16000, float('inf')): None}
 
     def _verifica_faixa(self, salario: float):
+        salario = float(salario)
         for lim_inf, lim_sup in self.__diretorio.keys():
             if lim_inf <= salario < lim_sup:
                 return (lim_inf, lim_sup)
         return None
 
     def adiciona_dado(self, salario: float, id_pessoa: int):
+        salario = float(salario)
         try:
             elemento = Elemento(int(id_pessoa))
         except ValueError:
@@ -37,6 +40,7 @@ class DiretorioSalario:
         self.__diretorio[faixa] = elemento
 
     def busca(self, salario: float):
+        salario = float(salario)
         faixa = self._verifica_faixa(salario)
         if faixa:
             elemento = self.__diretorio[faixa]
@@ -48,6 +52,7 @@ class DiretorioSalario:
         return None
 
     def busca_por_id(self, salario: float, id_pessoa: int):
+        salario = float(salario)
         faixa = self._verifica_faixa(salario)
         if faixa:
             elemento = self.__diretorio[faixa]
@@ -58,6 +63,7 @@ class DiretorioSalario:
         return False
 
     def remove(self, salario: float, id_pessoa: int):
+        salario = float(salario)
         faixa = self._verifica_faixa(salario)
         if faixa:
             elemento = self.__diretorio[faixa]
