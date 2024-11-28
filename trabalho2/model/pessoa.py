@@ -2,12 +2,15 @@
 
 class Pessoa:
     def __init__(self, nome: str, matricula: int, curso: str, cidade_origem: str, time: str, salario: float):
-        self.__nome = nome.upper()
-        self.__matricula = int(matricula)
-        self.__curso = curso.upper()
-        self.__cidade_origem = cidade_origem.upper()
-        self.__time = time.upper()
-        self.__salario = float(salario)
+        try:
+            self.__nome = nome.upper()
+            self.__matricula = int(matricula)
+            self.__curso = curso.upper()
+            self.__cidade_origem = cidade_origem.upper()
+            self.__time = time.upper()
+            self.__salario = float(salario)
+        except AttributeError:
+            return ValueError("Erro ao instanciar pessoa, um dos valores não é do tipo esperado")
 
     @property
     def nome(self):

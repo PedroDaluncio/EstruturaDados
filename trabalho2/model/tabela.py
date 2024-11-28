@@ -1,6 +1,6 @@
 from __future__ import annotations
 import json
-from pessoa import Pessoa
+from model.pessoa import Pessoa
 
 
 class Tabela:
@@ -18,13 +18,10 @@ class Tabela:
 
         if str(self.__id_atual) not in self.__tabela.keys():
             pessoa = Pessoa(nome, int(matricula), curso,
-                            cidade_origem, time, float(salario))
+                                cidade_origem, time, float(salario))
+            if pessoa is None: return ValueError("Erro ao instanciar pessoa, um dos valores não é do tipo esperado")
             self.__tabela[self.__id_atual] = pessoa
             self._salva_tabela(self.__tabela)
-
-        # diretorio_time(time, self.__id_atual)
-        # diretorio_salario(salario, self.__id_atual)
-        # diretorio_cidade_origem(cidade_origem, self.__id_atual)
 
         self.__id_atual += 1
 
@@ -68,7 +65,8 @@ class Tabela:
 
     def _abre_tabela(self) -> dict:
         try:
-            with open('tabela.json', 'r', encoding="UTF-8") as file:
+            with open('/home/pedro/Documentos/codigos/aulaEstruturaDados/trabalho2/model/tabela.json',
+                      'r', encoding="UTF-8") as file:
                 data = json.load(file)
                 return {indice: Pessoa.faz_instancia(pessoa) for indice, pessoa in data.items()}
         except json.decoder.JSONDecodeError:
@@ -79,7 +77,8 @@ class Tabela:
 
     def _salva_tabela(self, tabela: dict) -> None:
         try:
-            with open('tabela.json', 'w', encoding="UTF-8") as file:
+            with open('/home/pedro/Documentos/codigos/aulaEstruturaDados/trabalho2/model/tabela.json',
+                      'w', encoding="UTF-8") as file:
                 json.dump({indice: pessoa.faz_dicionario()
                           for indice, pessoa in tabela.items()}, file, indent=4)
         except BaseException as erro:
