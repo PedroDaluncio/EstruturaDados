@@ -18,25 +18,27 @@ class Tabela:
 
         if str(self.__id_atual) not in self.__tabela.keys():
             pessoa = Pessoa(nome, int(matricula), curso,
-                                cidade_origem, time, float(salario))
-            if pessoa is None: return ValueError("Erro ao instanciar pessoa, um dos valores não é do tipo esperado")
+                            cidade_origem, time, float(salario))
+            if pessoa is False:
+                return ValueError("Erro ao instanciar pessoa, um dos valores não é do tipo esperado")
             self.__tabela[self.__id_atual] = pessoa
             self._salva_tabela(self.__tabela)
 
         self.__id_atual += 1
 
     def busca_elemento(self,
-                       identificador: str | list,
-                       valor: str | int | float | list,
-                       qt_elementos_ha_buscar: int = 1):
+                       identificador: str | list = None,
+                       valor: str | int | float | list = None,
+                       qt_elementos_ha_buscar: int = 1,
+                       id_elemento = None):
         elementos = []
 
         if not self.__tabela:
             print("A tabela está vazia!")
             return
 
-        if isinstance(valor, str):
-            valor = valor.upper()
+        if id_elemento:
+            return self.__tabela.get(id_elemento)
 
         for indice, elemento in self.__tabela.items():
             if getattr(elemento, identificador) == valor:
@@ -56,16 +58,18 @@ class Tabela:
             _, indice = self.busca_elemento(identificador, valor)
             self.__tabela.pop(indice, None)
             self._salva_tabela(self.__tabela)
+            return indice
         elif id_elemento is not None:
             self.__tabela.pop(str(id_elemento), None)
             self._salva_tabela(self.__tabela)
+            return True
         else:
             print("Critérios de busca inválidos!")
-            return None
+            return False
 
     def _abre_tabela(self) -> dict:
         try:
-            with open('/home/pedro/Documentos/codigos/aulaEstruturaDados/trabalho2/model/tabela.json',
+            with open(r'D:\programacao\codigospython\EstruturaDados\trabalho2\model\tabela.json',
                       'r', encoding="UTF-8") as file:
                 data = json.load(file)
                 return {indice: Pessoa.faz_instancia(pessoa) for indice, pessoa in data.items()}
@@ -77,12 +81,17 @@ class Tabela:
 
     def _salva_tabela(self, tabela: dict) -> None:
         try:
-            with open('/home/pedro/Documentos/codigos/aulaEstruturaDados/trabalho2/model/tabela.json',
+            with open(r'D:\programacao\codigospython\EstruturaDados\trabalho2\model\tabela.json',
                       'w', encoding="UTF-8") as file:
                 json.dump({indice: pessoa.faz_dicionario()
                           for indice, pessoa in tabela.items()}, file, indent=4)
         except BaseException as erro:
             print(f"Erro ao salvar a tabela: {erro}")
+
+    def carregar_dados(self, data: dict) -> None:
+        for dt in data:
+            self.adiciona_dado(dt['nome'], dt['matricula'], dt['curso'],
+                               dt['cidade_origem'], dt['time'], dt['salario'])
 
     @property
     def tabela(self):
@@ -91,7 +100,3 @@ class Tabela:
     @property
     def id_atual(self):
         return self.__id_atual
-
-
-a = Tabela()
-a.busca_elemento('nome', 'pedro')

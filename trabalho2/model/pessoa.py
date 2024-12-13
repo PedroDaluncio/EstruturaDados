@@ -1,16 +1,37 @@
 
 
 class Pessoa:
-    def __init__(self, nome: str, matricula: int, curso: str, cidade_origem: str, time: str, salario: float):
+    def __new__(cls, *args):
         try:
-            self.__nome = nome.upper()
-            self.__matricula = int(matricula)
-            self.__curso = curso.upper()
-            self.__cidade_origem = cidade_origem.upper()
-            self.__time = time.upper()
-            self.__salario = float(salario)
-        except AttributeError:
-            return ValueError("Erro ao instanciar pessoa, um dos valores não é do tipo esperado")
+            # Desempacotando os argumentos
+            nome, matricula, curso, cidade_origem, time, salario = args
+
+            if not isinstance(nome, str) or not nome.strip():
+                raise ValueError("O nome deve ser uma string válida.")
+            if not isinstance(curso, str) or not curso.strip():
+                raise ValueError("O curso deve ser uma string válida.")
+            if not isinstance(cidade_origem, str) or not cidade_origem.strip():
+                raise ValueError("A cidade_origem deve ser uma string válida.")
+            if not isinstance(time, str) or not time.strip():
+                raise ValueError("O time deve ser uma string válida.")
+            if not isinstance(matricula, int) or matricula <= 0:
+                raise ValueError(
+                    "A matrícula deve ser um número inteiro positivo.")
+            if not isinstance(salario, float) or salario < 0:
+                raise ValueError("O salário deve ser um número não negativo.")
+
+            return super().__new__(cls)  # Cria a instância se tudo estiver correto
+        except Exception as e:
+            print(f"Erro ao criar a instância: {e}")
+            return False
+
+    def __init__(self, nome: str, matricula: int, curso: str, cidade_origem: str, time: str, salario: float):
+        self.__nome = nome.upper()
+        self.__matricula = int(matricula)
+        self.__curso = curso.upper()
+        self.__cidade_origem = cidade_origem.upper()
+        self.__time = time.upper()
+        self.__salario = float(salario)
 
     @property
     def nome(self):
