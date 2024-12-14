@@ -28,27 +28,33 @@ class DiretorioCidade:
 
     def busca_por_id(self, cidade: str, id_pessoa: int):
         cidade = cidade.upper()
-        if self.__diretorio[cidade]:
-            elemento = self.__diretorio[cidade]
-            while elemento is not None:
-                if elemento.id_pessoa == id_pessoa:
-                    return elemento
-                elemento = elemento.proximo_elemento
-        return False
+        try:
+            if self.__diretorio[cidade]:
+                elemento = self.__diretorio[cidade]
+                while elemento is not None:
+                    if elemento.id_pessoa == id_pessoa:
+                        return elemento
+                    elemento = elemento.proximo_elemento
+        except (KeyError, AttributeError):
+            print("Cidade não encontrada")
+            return False
 
     def remove(self, cidade: str, id_pessoa: int):
         cidade = cidade.upper()
-        if self.__diretorio[cidade]:
-            elemento = self.__diretorio[cidade]
-            if elemento.id_pessoa == id_pessoa:
-                self.__diretorio[cidade] = elemento.proximo_elemento
-                return True
-            while elemento is not None:
-                if elemento.proximo_elemento.id_pessoa == id_pessoa:
-                    if elemento.proximo_elemento.proximo_elemento is not None:
-                        elemento.proximo_elemento = elemento.proximo_elemento.proximo_elemento
-                    else:
-                        elemento.proximo_elemento = None
+        try:
+            if self.__diretorio[cidade]:
+                elemento = self.__diretorio[cidade]
+                if elemento.id_pessoa == id_pessoa:
+                    self.__diretorio[cidade] = elemento.proximo_elemento
                     return True
-                elemento = elemento.proximo_elemento
-        return False
+                while elemento is not None:
+                    if elemento.proximo_elemento.id_pessoa == id_pessoa:
+                        if elemento.proximo_elemento.proximo_elemento is not None:
+                            elemento.proximo_elemento = elemento.proximo_elemento.proximo_elemento
+                        else:
+                            elemento.proximo_elemento = None
+                        return True
+                    elemento = elemento.proximo_elemento
+        except (KeyError, AttributeError):
+            print("Cidade não encontrada")
+            return False

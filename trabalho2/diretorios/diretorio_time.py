@@ -17,24 +17,31 @@ class DiretorioTime:
 
     def busca(self, time: str):
         time = time.upper()
-        if self.__diretorio[time]:
-            elemento = self.__diretorio[time]
-            ids = []
-            while elemento is not None:
-                ids.append(elemento.id_pessoa)
-                elemento = elemento.proximo_elemento
-            return ids
-        return None
+        try:
+            if self.__diretorio[time]:
+                elemento = self.__diretorio[time]
+                ids = []
+                while elemento is not None:
+                    ids.append(elemento.id_pessoa)
+                    elemento = elemento.proximo_elemento
+                return ids
+        except (KeyError, AttributeError):
+            print("Não há elementos para o time informado")
+            return None
+
 
     def busca_por_id(self, time: str, id_pessoa: int):
         time = time.upper()
-        if self.__diretorio[time]:
-            elemento = self.__diretorio[time]
-            while elemento is not None:
-                if elemento.id_pessoa == id_pessoa:
-                    return elemento
-                elemento = elemento.proximo_elemento
-        return False
+        try:
+            if self.__diretorio[time]:
+                elemento = self.__diretorio[time]
+                while elemento is not None:
+                    if elemento.id_pessoa == id_pessoa:
+                        return elemento
+                    elemento = elemento.proximo_elemento
+        except (KeyError, AttributeError):
+            print("Não há elementos para o time informado")
+            return None
 
     def remove(self, time: str, id_pessoa: int):
         time = time.upper()

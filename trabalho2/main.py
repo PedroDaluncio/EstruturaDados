@@ -54,12 +54,12 @@ class Main:
 
     def carregar_dados(self):
         data = [
-            {"Nome": "João", "Matrícula": 123, "Curso": "Engenharia",
-                "Cidade de Origem": "Florianópolis", "Time": "Avaí", "Salário": 1000.0},
-            {"Nome": "Maria", "Matrícula": 456, "Curso": "Direito",
-                "Cidade de Origem": "Joinville", "Time": "Joinville", "Salário": 2000.0},
-            {"Nome": "José", "Matrícula": 789, "Curso": "Medicina",
-                "Cidade de Origem": "Blumenau", "Time": "Chapecoense", "Salário": 3000.0},
+            {"nome": "João", "matricula": 123, "curso": "engenharia",
+                "cidade_origem": "Florianópolis", "time": "avaí", "salario": 1000.0},
+            {"nome": "Maria", "matricula": 456, "curso": "Direito",
+                "cidade_origem": "Joinville", "time": "Joinville", "salario": 2000.0},
+            {"nome": "José", "matricula": 789, "curso": "Medicina",
+                "cidade_origem": "Blumenau", "time": "Chapecoense", "salario": 3000.0},
         ]
         self.tabela.carregar_dados(data)
         print("Dados carregados com sucesso!\n")
@@ -80,11 +80,27 @@ class Main:
             salario = float(input("Salário: ").strip())
             resultado = self.diretorio_salario.busca(salario)
         print("Resultado da consulta: ", resultado)
+        return resultado
 
     def buscar_elemento(self):
         id_elemento = int(input("ID do elemento: ").strip())
         resultado = self.tabela.busca_elemento(id_elemento=id_elemento)
         print("Resultado da busca: ", resultado)
+
+    def exibir_todos(self):
+        print("Todos os dados:")
+        print("")
+        print(self.tabela.tabela)
+
+    def consulta_composta(self):
+        resultado1 = self.consulta_simples()
+        resultado2 = self.consulta_simples()
+        if resultado1 and resultado2:
+            ids = []
+            for res1, res2 in resultado1, resultado2:
+                if res1 == res2:
+                    ids.append(res1)
+            print("Resultado da consulta composta: ", ids)
 
     def menu(self):
         while True:
@@ -108,7 +124,7 @@ class Main:
                 self.consulta_simples()
 
             elif escolha == "3":
-                consulta_composta()
+                self.consulta_composta()
 
             elif escolha == "4":
                 self.adicionar_dado()
@@ -138,7 +154,7 @@ class Main:
                     print("Opção inválida.")
 
             elif escolha == "7":
-                exibir_todos()
+                self.exibir_todos()
 
             elif escolha == "8":
                 print("Saindo... Até logo!")
@@ -146,3 +162,7 @@ class Main:
 
             else:
                 print("Opção inválida. Tente novamente!\n")
+
+if __name__ == "__main__":
+    aplicacao = Main()
+    aplicacao.menu()

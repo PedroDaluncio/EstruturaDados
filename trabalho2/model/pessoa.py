@@ -1,10 +1,13 @@
 
 
 class Pessoa:
-    def __new__(cls, *args):
+    def __new__(cls, *args, **kwargs):
         try:
             # Desempacotando os argumentos
-            nome, matricula, curso, cidade_origem, time, salario = args
+            if kwargs and not args:
+                nome, matricula, curso, cidade_origem, time, salario = kwargs.values()
+            elif args and not kwargs:
+                nome, matricula, curso, cidade_origem, time, salario = args
 
             if not isinstance(nome, str) or not nome.strip():
                 raise ValueError("O nome deve ser uma string válida.")
@@ -14,11 +17,22 @@ class Pessoa:
                 raise ValueError("A cidade_origem deve ser uma string válida.")
             if not isinstance(time, str) or not time.strip():
                 raise ValueError("O time deve ser uma string válida.")
-            if not isinstance(matricula, int) or matricula <= 0:
-                raise ValueError(
-                    "A matrícula deve ser um número inteiro positivo.")
-            if not isinstance(salario, float) or salario < 0:
-                raise ValueError("O salário deve ser um número não negativo.")
+            try:
+                matricula = int(matricula)
+                if matricula <= 0:
+                    raise ValueError(
+                        "A matrícula deve ser um número inteiro positivo.")
+            except ValueError:
+                print("A matrícula deve ser um número inteiro positivo.")
+                return False
+            try:
+                salario = float(salario)
+                if salario < 0:
+                    raise ValueError(
+                        "O salário deve ser um número não negativo.")
+            except ValueError:
+                print("O salário deve ser um número não negativo.")
+                return False
 
             return super().__new__(cls)  # Cria a instância se tudo estiver correto
         except Exception as e:
@@ -93,9 +107,9 @@ class Pessoa:
 
     @classmethod
     def faz_instancia(cls, data) -> "Pessoa":
-        return cls(nome=data["nome"],
-                   matricula=data["matricula"],
-                   curso=data["curso"],
-                   cidade_origem=data["cidade_origem"],
-                   time=data["time"],
-                   salario=data["salario"])
+        return cls(nome=data['nome'],
+                   matricula=data['matricula'],
+                   curso=data['curso'],
+                   cidade_origem=data['cidade_origem'],
+                   time=data['time'],
+                   salario=data['salario'])

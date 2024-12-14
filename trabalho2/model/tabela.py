@@ -30,7 +30,7 @@ class Tabela:
                        identificador: str | list = None,
                        valor: str | int | float | list = None,
                        qt_elementos_ha_buscar: int = 1,
-                       id_elemento = None):
+                       id_elemento=None):
         elementos = []
 
         if not self.__tabela:
@@ -95,7 +95,8 @@ class Tabela:
 
     @property
     def tabela(self):
-        return self.__tabela
+        return {indice: pessoa.faz_dicionario()
+                for indice, pessoa in self.__tabela.items()}
 
     @property
     def id_atual(self):
