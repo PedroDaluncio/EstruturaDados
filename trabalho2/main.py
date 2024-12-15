@@ -90,7 +90,8 @@ class Main:
     def exibir_todos(self):
         print("Todos os dados:")
         print("")
-        print(self.tabela.tabela)
+        for indice, pessoa in self.tabela.tabela.items():
+            print(f"{indice}: {pessoa}")
 
     def consulta_composta(self):
         resultado1 = self.consulta_simples()
@@ -104,6 +105,7 @@ class Main:
 
     def menu(self):
         while True:
+            print()
             print("Menu:")
             print("1. Carregar dados")
             print("2. Consulta simples")
@@ -113,6 +115,7 @@ class Main:
             print("6. Remover elemento por ID")
             print("7. Exibir todos os dados")
             print("8. Sair")
+            print()
 
             escolha = input("Escolha uma opção: ").strip()
             print()
