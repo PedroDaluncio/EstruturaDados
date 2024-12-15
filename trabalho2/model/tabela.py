@@ -69,8 +69,7 @@ class Tabela:
 
     def _abre_tabela(self) -> dict:
         try:
-            with open(r'D:\programacao\codigospython\EstruturaDados\trabalho2\model\tabela.json',
-                      'r', encoding="UTF-8") as file:
+            with open('model/tabela.json', 'r', encoding="UTF-8") as file:
                 data = json.load(file)
                 return {indice: Pessoa.faz_instancia(pessoa) for indice, pessoa in data.items()}
         except json.decoder.JSONDecodeError:
@@ -81,8 +80,7 @@ class Tabela:
 
     def _salva_tabela(self, tabela: dict) -> None:
         try:
-            with open(r'D:\programacao\codigospython\EstruturaDados\trabalho2\model\tabela.json',
-                      'w', encoding="UTF-8") as file:
+            with open('model/tabela.json', 'w', encoding="UTF-8") as file:
                 json.dump({indice: pessoa.faz_dicionario()
                           for indice, pessoa in tabela.items()}, file, indent=4)
         except BaseException as erro:
